@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { AiOutlineDownload, AiFillCopy } from "react-icons/ai";
 import { ToastContainer, toast } from "react-toastify";
+import { AppContext } from "../App";
 import "react-toastify/dist/ReactToastify.css";
 import { saveAs } from "file-saver";
 
-const Gifs = ({ data }) => {
+const Gifs = () => {
+  const { data } = useContext(AppContext);
+
   const notify = (url) => {
     toast.success("Coppied to clipboard!");
     navigator.clipboard.writeText(url);

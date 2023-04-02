@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import "./App.css";
 import Gifs from "./components/Gifs";
-import { AiOutlineSend } from "react-icons/ai";
+import Form from "./components/Form";
 import { ToastContainer, toast } from "react-toastify";
+export const AppContext = createContext();
 
 function App() {
   const [data, setData] = useState([]);
@@ -29,38 +30,21 @@ function App() {
 
   return (
     <>
-      <ToastContainer></ToastContainer>
-      <section className="min-w-[100] min-h-[60vh] mx-auto flex items-center justify-center text-white">
-        <div className="md:w-[700px]">
-          <h2 className="bold text-5xl">Giphy APP</h2>
-          <p className="md:text-xl my-3">
-            Hover the gifs to copy the gifs's url or to download them
-          </p>
-          <div className="mt-7">
-            <form onSubmit={handleSubtmit} className="flex gap-2">
-              <input
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                type="text"
-                className="md:w-[90%] border-0 py-3 text-white bg-black rounded-lg px-5 outline-none"
-                placeholder="Ejem. Gatos"
-              />
-              <input
-                type="number"
-                value={limit}
-                min={1}
-                max={40}
-                onChange={(e) => setLimit(e.target.value)}
-                className="md:w-[10%] w-[15%] border-0 py-3 text-white bg-black rounded-lg px-5 outline-none"
-              />
-              <button type="submit" className="bg-black px-4 rounded-lg py-2">
-                <AiOutlineSend size={20} />
-              </button>
-            </form>
+      <AppContext.Provider
+        value={{ handleSubtmit, value, limit, setLimit, setValue, data }}
+      >
+        <ToastContainer></ToastContainer>
+        <section className="min-w-[100] min-h-[60vh] mx-auto flex items-center justify-center text-white">
+          <div className="md:w-[700px]">
+            <h2 className="bold text-5xl">Giphy APP</h2>
+            <p className="md:text-xl my-3">
+              Hover the gifs to copy the gifs's url or to download them
+            </p>
+            <Form></Form>
           </div>
-        </div>
-      </section>
-      <Gifs data={data}></Gifs>
+        </section>
+        <Gifs></Gifs>
+      </AppContext.Provider>
     </>
   );
 }
